@@ -1,0 +1,8 @@
+
+
+def string msg "hello world"
+
+
+
+def func main 
+    print $msg
