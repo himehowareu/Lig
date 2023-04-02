@@ -1,8 +1,37 @@
-
-
 def string msg "hello world"
 
-
+def type stack
+    def int pointer
+    def list items
+    def build
+        set int $pointer 0
+        set list $items []
 
 def func main 
     print $msg
+
+def int year
+def int age
+def bol canDrink
+
+print "what year were you born ? "
+
+input int $year
+
+def stack books
+
+stack $books add "john"
+stack $books add "gorge"
+stack $books add "bob"
+
+math sub 2023 year age
+
+print "you are "
+print age
+print " years old"
+
+math cmp age 21 $canDrink
+if $canDrink
+    print "enjoy your drinks"
+else
+    print "sorry no drinks"
