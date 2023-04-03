@@ -1,11 +1,44 @@
+def type name data
+    local type name data
+    def build @parma # same as init 
+        return @parma
+    def add @number1 @number2
+        temp int sum
+        int add @number1 @number2 !sum
+
+
+
+
+
+
+
+
+
 def string msg "hello world"
 
+def type pointer
+    local int address
+    def build @address=0
+
+def type list
+    local pointer start
+    local pointer end
+    def at @index
+        temp pointer rtn
+        math add #start @index !rtn
+        return !rtn
+    def set @index @data
+        
+
 def type stack
-    def int pointer
-    def list items
+    local int pointer
+    local list items
     def build
-        set int $pointer 0
-        set list $items []
+        set int #pointer 0
+        set list #items []
+    def add @self @data
+        math add #pointer 1 #pointer
+        
 
 def func main 
     print $msg
