@@ -15,6 +15,6 @@ def type name [data]
 
 # local
 @ parma
-$ varible
+$ variable
 ! temp 
 % func
