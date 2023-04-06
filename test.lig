@@ -1,0 +1,20 @@
+// 
+// long        32bit
+// pointer     32bit
+// int         16bit
+// byte/char   8bit
+
+def type name [data]
+    if [true\false]
+        block
+    else
+        block
+    while [true\false]
+        block
+
+
+# local
+@ parma
+$ varible
+! temp 
+% func
