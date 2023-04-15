@@ -87,11 +87,31 @@ def tokenize(lines: List[str]) -> List[List[str]]:
     return out
 
 
+
+def compileTokens(tokens: List[List[str]]):
+    indent = 0
+    for line in tokens:
+        if line[0] == "compile":
+            if line[1] == "raw":
+                print(line[2].strip('"'))
+        if line[0] == "def":
+            if line[1] == "string":
+                print(len(line), line)
+                if len(line) == 3:
+                    print("  " * indent + line[2] + "= ''")
+                elif len(line) == 4:
+                    print("  " * indent + line[2] + "=" + line[3])
+                else:
+                    exit("error in: " + " ".join(line))
+            indent += 1
+
+
 if __name__ == "__main__":
-    # program = loadfile("stage1.lig")
-    program = loadfile("example.lig")
+    program = loadfile("stage1.lig")
+    # program = loadfile("example.lig")
     temp = removeComments(program)
     stage1 = removeNewlines(temp)
     stage2 = removeTabs(stage1)
     stage3 = tokenize(stage2)
-    pp(stage3)
+    compileTokens(stage3)
+    # pp(stage3)

@@ -1,1 +1,3 @@
-compile asm "print hi"
+compile raw "print hi"
+
+def string name "john"
