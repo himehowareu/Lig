@@ -1,3 +1,0 @@
-compile raw "print hi"
-
-def string name "john"
