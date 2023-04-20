@@ -50,11 +50,6 @@ def removeTabs(text: List[str]) -> List[str]:
     return out
 
 
-# def genLines(lines:List[str]) -> Generator[str,None,None]:
-#     for line in lines:
-#         yield line
-
-
 def tokenize(lines: List[str]) -> List[List[str]]:
     out = []
     for line in lines:
@@ -76,7 +71,8 @@ def tokenize(lines: List[str]) -> List[List[str]]:
                         tokens.append(current)
                     current = ""
                 elif char == " ":
-                    tokens.append(current)
+                    if current != "":
+                        tokens.append(current)
                     current = ""
                 else:
                     current += char
@@ -85,7 +81,6 @@ def tokenize(lines: List[str]) -> List[List[str]]:
         if tokens != []:
             out.append(tokens)
     return out
-
 
 
 def compileTokens(tokens: List[List[str]]):
@@ -107,11 +102,11 @@ def compileTokens(tokens: List[List[str]]):
 
 
 if __name__ == "__main__":
-    program = loadfile("stage1.lig")
-    # program = loadfile("example.lig")
+    # program = loadfile("stage1.lig")
+    program = loadfile("example.lig")
     temp = removeComments(program)
     stage1 = removeNewlines(temp)
     stage2 = removeTabs(stage1)
     stage3 = tokenize(stage2)
-    compileTokens(stage3)
-    # pp(stage3)
+    # compileTokens(stage3)
+    pp(stage3)

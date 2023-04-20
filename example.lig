@@ -1,1 +1,48 @@
-# this will be the example file for lig
+// this will be the example file for lig
+
+print "this is a teat"
+
+Func sayHello str prompt
+    string name  
+    input prompt name
+    print "Hello "
+    // {}  inserts the returned value of 
+    // the inclosed statement
+    // println {input prompt}
+    println name
+endFunc
+
+Func add int a int b -> int
+    int c
+    a + b = c
+    return c
+endFunc
+
+sayHello "john"
+
+Struct person
+    int age
+    string name
+
+    Func build int a string b -> person
+        set self.age a
+        set self.name b
+    endFunc 
+
+endStruct
+
+Func greet person customer
+    print "hello "
+    print person.name
+endFunc
+
+new person 25 "john" john
+
+greet john
+
+add john.age 1 = john.age
+
+println john.age
+
+Func canDrink person customer -> bol
+endFunc
