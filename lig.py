@@ -2,6 +2,7 @@
 
 from typing import Generator, List
 from pprint import pprint as pp
+import language
 
 
 def loadfile(filename: str) -> str:
@@ -83,22 +84,85 @@ def tokenize(lines: List[str]) -> List[List[str]]:
     return out
 
 
-def compileTokens(tokens: List[List[str]]):
-    indent = 0
-    for line in tokens:
-        if line[0] == "compile":
-            if line[1] == "raw":
-                print(line[2].strip('"'))
-        if line[0] == "def":
-            if line[1] == "string":
-                print(len(line), line)
-                if len(line) == 3:
-                    print("  " * indent + line[2] + "= ''")
-                elif len(line) == 4:
-                    print("  " * indent + line[2] + "=" + line[3])
-                else:
-                    exit("error in: " + " ".join(line))
-            indent += 1
+def extractConst(tokens: list[str]) -> list[str]:
+    out = []
+    for token in tokens:
+        if token.isnumeric():
+            if token not in out:
+                out.append(token)
+        elif token.startswith('"'):
+            if token not in out:
+                out.append(token)
+    return out
+
+
+def flatten(lines: List[List[str]]) -> list[str]:
+    out = []
+    for line in lines:
+        out.extend(line)
+    return out
+
+
+# def gen(lines: list[list[str]]) -> Generator[str, None, None]:
+#     for line in lines:
+#         for token in line:
+#             yield token
+
+
+def getDefined(tokens: list[str]) -> tuple[list[str], list[str], list[str]]:
+    functions: list[str] = []
+    structs: list[str] = []
+    vars: list[str] = []
+    next = 0
+    for token in tokens:
+        if token == "Func":
+            next = 1
+            continue
+        elif token in language.types:
+            next = 2
+            continue
+        elif token == "Struct":
+            next = 3
+            continue
+        elif token in structs:
+            next = 2
+            continue
+
+        if next == 1:
+            functions.append(token)
+            next = 0
+        elif next == 2:
+            vars.append(token)
+            next = 0
+        elif next == 3:
+            structs.append(token)
+            next = 0
+    return (functions, structs, vars)
+
+
+def basicCheck(tokens: list[str]) -> bool:
+    """this is some checking not yet done right"""
+    fun, stru, vars = getDefined(tokens)
+    defined = fun + stru + vars
+    cont = extractConst(tokens)
+
+    knownTokens = language.lang + defined + cont
+
+    for token in tokens:
+        if token not in knownTokens:
+            if "." in token:
+                for part in token.split("."):
+                    if part not in knownTokens:
+                        print(token)
+                        return False
+            else:
+                print(token)
+                return False
+    return True
+
+
+def compile(tokens: list[str]) -> None:
+    pass  # exit("not yet working")
 
 
 if __name__ == "__main__":
@@ -108,5 +172,11 @@ if __name__ == "__main__":
     stage1 = removeNewlines(temp)
     stage2 = removeTabs(stage1)
     stage3 = tokenize(stage2)
-    # compileTokens(stage3)
-    pp(stage3)
+
+    # pp(stage3)
+
+    tokens = flatten(stage3)
+    if basicCheck(tokens):
+        pp(stage3)
+
+    # compile(tokens)

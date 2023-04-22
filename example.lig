@@ -3,12 +3,9 @@
 print "this is a teat"
 
 Func sayHello str prompt
-    string name  
+    str name  
     input prompt name
     print "Hello "
-    // {}  inserts the returned value of 
-    // the inclosed statement
-    // println {input prompt}
     println name
 endFunc
 
@@ -22,13 +19,7 @@ sayHello "john"
 
 Struct person
     int age
-    string name
-
-    Func build int a string b -> person
-        set self.age a
-        set self.name b
-    endFunc 
-
+    str name
 endStruct
 
 Func greet person customer
@@ -36,7 +27,7 @@ Func greet person customer
     print person.name
 endFunc
 
-new person 25 "john" john
+new person john 25 "john"
 
 greet john
 
@@ -45,4 +36,9 @@ add john.age 1 = john.age
 println john.age
 
 Func canDrink person customer -> bol
+    If person.age >= 21 Then
+        return True
+    Else
+        return False
+    endIf
 endFunc
