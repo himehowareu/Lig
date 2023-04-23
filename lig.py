@@ -157,7 +157,16 @@ def basicCheck(tokens: list[str]) -> bool:
     return True
 
 
-def compile(tokens: list[str]) -> None:
+# this needs a lot of work POC
+def compile(tokens: list[list[str]]) -> None:
+    lines = iter(tokens)
+    for line in lines:
+        words = iter(line)
+        for word in words:
+            if word == "print":
+                print(next(words).strip('"'))
+            # print(word)
+
     pass  # exit("not yet working")
 
 
@@ -174,5 +183,6 @@ if __name__ == "__main__":
     tokens = flatten(stage3)
     if basicCheck(tokens):
         pp(stage3)
+    compile(stage3)
 
     # compile(tokens)
