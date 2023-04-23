@@ -103,12 +103,6 @@ def flatten(lines: List[List[str]]) -> list[str]:
     return out
 
 
-# def gen(lines: list[list[str]]) -> Generator[str, None, None]:
-#     for line in lines:
-#         for token in line:
-#             yield token
-
-
 def getDefined(tokens: list[str]) -> tuple[list[str], list[str], list[str]]:
     functions: list[str] = []
     structs: list[str] = []
