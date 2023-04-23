@@ -155,6 +155,8 @@ def basicCheck(tokens: list[str]) -> bool:
                     if part not in knownTokens:
                         print(token)
                         return False
+                    else:
+                        knownTokens.append(token)
             else:
                 print(token)
                 return False

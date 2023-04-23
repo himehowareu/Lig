@@ -1,4 +1,4 @@
-keyworks = [
+keywords = [
     "print",
     "println",
     "Func",
@@ -15,10 +15,11 @@ keyworks = [
     "True",
     "False",
 ]
+
 ops = ["+", "-", "*", "/", "^", "=", "->"]
 
 cpm = [">", "<", ">=", "<=", "==", "!="]
 
 types = ["str", "int", "bol"]
 
-lang = keyworks + ops + cpm + types
+lang = keywords + ops + cpm + types
