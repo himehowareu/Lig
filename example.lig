@@ -31,7 +31,20 @@ new person john 25 "john"
 
 greet john
 
-add john.age 1 = john.age
+int a
+
+Func dec int x -> int
+    int v
+    sub x 1 v
+    return v 
+endFunc
+
+While a > 10 do
+    print a
+    dec a a 
+endWhile
+
+add john.age 1 john.age
 
 println john.age
 
