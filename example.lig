@@ -41,7 +41,6 @@ endFunc
 
 While a > 10 do
     print a
-    dec a a 
 endWhile
 
 add john.age 1 john.age
