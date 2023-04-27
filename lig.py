@@ -157,22 +157,49 @@ def basicCheck(tokens: list[str]) -> bool:
     return True
 
 
+def is_number(s: str) -> bool:
+    if s.replace(".", "").isnumeric():
+        return True
+    else:
+        return False
+
+
 # this needs a lot of work POC
 def compile(tokens: list[list[str]]) -> None:
+    vars = {}
     lines = iter(tokens)
     for line in lines:
         words = iter(line)
         for word in words:
-            if word == "print":
-                print(next(words).strip('"'))
-            # print(word)
-
-    pass  # exit("not yet working")
+            if word == "println":
+                nextToken = next(words)
+                if nextToken.startswith('"'):
+                    print(nextToken.strip('"'))
+                elif is_number(nextToken):
+                    print(nextToken)
+                else:
+                    if nextToken in vars.keys():
+                        nextToken = vars[nextToken]
+                        print(str(nextToken).strip('"'))
+            elif word == "int":
+                restofToken = list(words)
+                if len(restofToken) == 1:
+                    vars[restofToken[0]] = 0
+                else:
+                    if is_number(restofToken[0]):
+                        if "." in restofToken[1]:
+                            vars[restofToken[1]] = float(restofToken[0])
+                        else:
+                            vars[restofToken[1]] = int(restofToken[0])
+                    else:
+                        if restofToken[0] in vars.keys():
+                            vars[restofToken[1]] = vars[restofToken[0]]
+    # pp(vars)
 
 
 if __name__ == "__main__":
     # program = loadfile("stage1.lig")
-    program = loadfile("example.lig")
+    program = loadfile("test.lig")
     temp = removeComments(program)
     stage1 = removeNewlines(temp)
     stage2 = removeTabs(stage1)
@@ -180,9 +207,8 @@ if __name__ == "__main__":
 
     # pp(stage3)
 
-    tokens = flatten(stage3)
-    if basicCheck(tokens):
-        pp(stage3)
-    compile(stage3)
+    # tokens = flatten(stage3)
+    # if not basicCheck(tokens):
+    #     pp(stage3)
 
-    # compile(tokens)
+    compile(stage3)

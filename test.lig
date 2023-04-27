@@ -1,0 +1,5 @@
+int 22 john
+println "hi"
+println 34
+println 3.7
+println john
