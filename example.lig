@@ -1,4 +1,5 @@
 // this will be the example file for lig
+// got git working right XD
 
 print "this is a teat"
 
@@ -41,7 +42,6 @@ endFunc
 
 While a > 10 do
     print a
-    dec a a 
 endWhile
 
 add john.age 1 john.age
