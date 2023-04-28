@@ -180,7 +180,17 @@ def compile(tokens: list[list[str]]) -> None:
                 else:
                     if nextToken in vars.keys():
                         nextToken = vars[nextToken]
-                        print(str(nextToken).strip('"'))
+                        print(str(nextToken))
+            elif word == "print":
+                nextToken = next(words)
+                if nextToken.startswith('"'):
+                    print(nextToken.strip('"'), end="")
+                elif is_number(nextToken):
+                    print(nextToken, end="")
+                else:
+                    if nextToken in vars.keys():
+                        nextToken = vars[nextToken]
+                        print(str(nextToken), end="")
             elif word == "int":
                 restofToken = list(words)
                 if len(restofToken) == 1:
@@ -194,6 +204,23 @@ def compile(tokens: list[list[str]]) -> None:
                     else:
                         if restofToken[0] in vars.keys():
                             vars[restofToken[1]] = vars[restofToken[0]]
+            elif word == "str":
+                restofToken = list(words)
+                if len(restofToken) == 1:
+                    vars[restofToken[0]] = ""
+                else:
+                    vars[restofToken[1]] = restofToken[0].strip('"')
+            elif word == "input":
+                restofToken = list(words)
+                if restofToken[1] not in vars:
+                    exit(f"error {restofToken[1]} not defined") 
+                if restofToken[0].startswith('"'):
+                    vars[restofToken[1]] = input(restofToken[0])
+                elif restofToken[0] in vars:
+                    vars[restofToken[1]] = input(vars[restofToken[0]])
+
+                    
+
     # pp(vars)
 
 

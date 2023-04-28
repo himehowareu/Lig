@@ -3,6 +3,7 @@
 
 print "this is a teat"
 
+str "test" test
 Func sayHello str prompt
     str name  
     input prompt name
@@ -10,11 +11,11 @@ Func sayHello str prompt
     println name
 endFunc
 
-Func add int a int b -> int
-    int c
-    a + b = c
-    return c
-endFunc
+// Func add int a int b -> int
+//     int c
+//     a + b = c
+//     return c
+// endFunc
 
 sayHello "john"
 

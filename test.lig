@@ -1,5 +1,16 @@
 int 22 john
 println "hi"
 println 34
-println 3.7
+str "john" name
+print 234
+print "aaa"
 println john
+
+print "hello "
+println name
+
+str user 
+
+input "what is your name ?" user
+
+print user
