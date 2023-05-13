@@ -225,7 +225,7 @@ def compile(tokens: list[list[str]]) -> None:
 
 
 if __name__ == "__main__":
-    # program = loadfile("stage1.lig")
+    # program = loadfile("example.lig")
     program = loadfile("test.lig")
     temp = removeComments(program)
     stage1 = removeNewlines(temp)
@@ -233,7 +233,6 @@ if __name__ == "__main__":
     stage3 = tokenize(stage2)
 
     # pp(stage3)
-
     # tokens = flatten(stage3)
     # if not basicCheck(tokens):
     #     pp(stage3)
