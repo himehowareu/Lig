@@ -225,16 +225,16 @@ def compile(tokens: list[list[str]]) -> None:
 
 
 if __name__ == "__main__":
-    # program = loadfile("example.lig")
-    program = loadfile("test.lig")
+    program = loadfile("example.lig")
+    # program = loadfile("test.lig")
     temp = removeComments(program)
     stage1 = removeNewlines(temp)
     stage2 = removeTabs(stage1)
     stage3 = tokenize(stage2)
 
-    # pp(stage3)
+    pp(stage3)
     # tokens = flatten(stage3)
     # if not basicCheck(tokens):
     #     pp(stage3)
 
-    compile(stage3)
+    # compile(stage3)

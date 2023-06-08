@@ -26,7 +26,7 @@ endStruct
 
 Func greet person customer
     print "hello "
-    print person.name
+    print customer.name
 endFunc
 
 new person john 25 "john"
@@ -50,7 +50,7 @@ add john.age 1 john.age
 println john.age
 
 Func canDrink person customer -> bol
-    If person.age >= 21 Then
+    If customer.age >= 21 Then
         return True
     Else
         return False
