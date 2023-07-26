@@ -1,9 +1,9 @@
 // this will be the example file for lig
 // got git working right XD
 
-print "this is a teat"
+print "this is a test"
 
-str "test" test
+str test "test"
 Func sayHello str prompt
     str name  
     input prompt name
@@ -41,7 +41,7 @@ Func dec int x -> int
     return v 
 endFunc
 
-While a > 10 do
+While a > 10 Do
     print a
 endWhile
 

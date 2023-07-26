@@ -147,12 +147,12 @@ def basicCheck(tokens: list[str]) -> bool:
             if "." in token:
                 for part in token.split("."):
                     if part not in knownTokens:
-                        print(token)
+                        print("BASIC CHECK: ",token)
                         return False
                     else:
                         knownTokens.append(token)
             else:
-                print(token)
+                print("BASIC CHECK: ",token)
                 return False
     return True
 
@@ -162,6 +162,21 @@ def is_number(s: str) -> bool:
         return True
     else:
         return False
+
+
+def printFlat(lines: List[List[str]])-> None:
+    indent = 0
+    for line in lines:
+        if line[0] in language.indent:
+            print("  "*indent," ".join(line))
+            indent+=1
+            continue
+        elif line[0] in language.unindent:
+            indent-=1
+        if line[0] == "Else":
+            print("  "*(indent-1)," ".join(line))
+            continue
+        print("  "*indent," ".join(line))
 
 
 # this needs a lot of work POC
@@ -232,9 +247,11 @@ if __name__ == "__main__":
     stage2 = removeTabs(stage1)
     stage3 = tokenize(stage2)
 
-    pp(stage3)
-    # tokens = flatten(stage3)
-    # if not basicCheck(tokens):
-    #     pp(stage3)
+    # pp(stage3)
+    tokens = flatten(stage3)
+    if not basicCheck(tokens):
+        pp(stage3)
+    
+    printFlat(stage3)
 
     # compile(stage3)

@@ -11,12 +11,29 @@ keywords = [
     "endIf",
     "return",
     "input",
+    "While",
+    "Do",
+    "endWhile",
     "new",
     "True",
     "False",
 ]
 
-ops = ["+", "-", "*", "/", "^", "=", "->"]
+indent = [
+    "Func",
+    "Struct",
+    "If",
+    "While"
+]
+unindent=[
+    "endFunc",
+    "endStruct",
+    "endIf",
+    "endWhile"
+]
+
+# ops = ["+", "-", "*", "/", "^", "=", "->"]
+ops = ["add","sub","mul","div", "pow","->"]
 
 cpm = [">", "<", ">=", "<=", "==", "!="]
 
