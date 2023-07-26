@@ -1,5 +1,7 @@
 # lig.py
 
+# need to make the same state mechine 
+
 from typing import Generator, List
 from pprint import pprint as pp
 import language
