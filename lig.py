@@ -87,7 +87,8 @@ def tokenize(lines: List[str]) -> List[List[str]]:
 
 
 def extractConst(tokens: list[str]) -> list[str]:
-    out = []
+    numbers = []
+    strings=[]
     for token in tokens:
         if token.isnumeric():
             if token not in out:
@@ -95,7 +96,7 @@ def extractConst(tokens: list[str]) -> list[str]:
         elif token.startswith('"'):
             if token not in out:
                 out.append(token)
-    return out
+    return(numbers,strings)
 
 
 def flatten(lines: List[List[str]]) -> list[str]:
@@ -140,7 +141,8 @@ def basicCheck(tokens: list[str]) -> bool:
     """this is some checking not yet done right"""
     fun, stru, vars = getDefined(tokens)
     defined = fun + stru + vars
-    cont = extractConst(tokens)
+    numbers , strings = extractConst(tokens)
+    cont = numbers + strings
 
     knownTokens = language.lang + defined + cont
 
@@ -238,12 +240,61 @@ def compile(tokens: list[list[str]]) -> None:
 
                     
 
+def compile_test(tokens: list[list[str]])->None:
+    vars={}
+    lines = iter(tokens)
+    for line in lines:
+        match line:
+            case ["print"|"println",statement] if statement.startswith('"'):
+                ending =""
+                if line[0] == "print":
+                    ending ="\n"
+                print(statement.strip('"'),end=ending)
+
+            case ["print"|"println",statement] if is_number(statement):
+                ending =""
+                if line[0] == "print":
+                    ending ="\n"
+                print(statement,end=ending)
+
+            case ["print"|"println",statement] if statement in vars.keys():
+                ending =""
+                if line[0] == "print":
+                    ending ="\n"
+                statement = vars[statement]
+                print(str(statement),end=ending)
+            
+            case ["int" ,name,value] if is_number(value):
+                    if "." in value:
+                        print("can not asign float to int varible")
+                        # vars[name] = float(value)
+                    else:
+                        vars[name] = int(value)
+            case ["int" ,name,value] if name in vars.keys():
+                    vars[name] = vars[value]
+            case ["int" ,name]:
+                    vars[name] = 0
+            case ["str",name,value]:
+                vars[name] = value.strip('"')
+            case ["str",name]:
+                vars[name] = ""
+            case ["input",prompt,store] if prompt.startswith('"'):
+                if store not in vars:
+                    exit(f"error {store} not defined") 
+                vars[store] = input(prompt.strip('"'))
+            case ["input",prompt,store] if prompt in vars:
+                if store not in vars:
+                    exit(f"error {store} not defined") 
+                vars[store] = input(vars[prompt])
+            case _:
+                print("unknown token : "+ " ".join(line))
+
     # pp(vars)
 
 
 if __name__ == "__main__":
-    program = loadfile("example.lig")
-    # program = loadfile("test.lig")
+    # program = loadfile("example.lig")
+    program = loadfile("test.lig")
     temp = removeComments(program)
     stage1 = removeNewlines(temp)
     stage2 = removeTabs(stage1)
@@ -254,6 +305,7 @@ if __name__ == "__main__":
     if not basicCheck(tokens):
         pp(stage3)
     
-    printFlat(stage3)
+    # printFlat(stage3)
 
     # compile(stage3)
+    compile_test(stage3)

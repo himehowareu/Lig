@@ -1,7 +1,7 @@
-int 22 john
+int john 22
 println "hi"
 println 34
-str "john" name
+str name "john"
 print 234
 print "aaa"
 println john
