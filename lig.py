@@ -314,6 +314,9 @@ def compile_test(tokens: list[list[str]])->list[str]:
             case ["add" , var1,var2,store]:
                 out.append(f"{'  '*indents}{store}={var1}+{var2}")
 
+            case ["mul" , var1,var2,store]:
+                out.append(f"{'  '*indents}{store}={var1}*{var2}")
+
             case ["endFunc"|"endWhile"|"endIf"]:
                 indents -= 1
 
