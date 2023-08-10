@@ -241,63 +241,100 @@ def compile(tokens: list[list[str]]) -> None:
                     
 
 def compile_test(tokens: list[list[str]])->list[str]:
-    out = ["vars={}"]
+    out = ["from dataclasses import dataclass"]
     vars={}
+    stream = flatten(stage3)
+    # functions, structs, vars = getDefined(stream)
+    functions, structures, _ = getDefined(stream)
+    indents=0
     lines = iter(tokens)
     for line in lines:
         match line:
-            case ["print"|"println",statement] if statement.startswith('"'):
+            case ["print"|"println",statement]:
                 ending ="''"
                 if line[0] == "println":
                     ending ="\"\\n\""
-                out.append(f"print({statement},end={ending})")
-                # print(statement.strip('"'),end=ending)
+                out.append(f"{'  '*indents}print(str({statement}),end={ending})")
 
-            case ["print"|"println",statement] if is_number(statement):
-                ending ="''"
-                if line[0] == "println":
-                    ending ="\"\\n\""
-                out.append(f"print({statement},end={ending})")
-                # print(statement,end=ending)
-
-            case ["print"|"println",statement] if statement in vars.keys():
-                ending ="''"
-                if line[0] == "println":
-                    ending ="\"\\n\""
-                out.append(f"print(str(vars[\"{statement}\"]),end={ending})")
-
-                # statement = vars[statement]
-                # print(str(statement),end=ending)
-            
             case ["int" ,name,value] if is_number(value):
                     if "." in value:
                         print("can not asign float to int varible")
                         vars[name] = float(value)
                     else:
                         vars[name] = int(value)
-                        out.append(f"vars[\"{name}\"] = {int(value)}")
+                        out.append(f"{'  '*indents}{name} = {int(value)}")
             case ["int" ,name,value] if name in vars.keys():
                     vars[name] = vars[value]
-                    out.append(f"vars[\"{name}\"] = vars[{value}]")
+                    out.append(f"{'  '*indents}{name} = {value}")
             case ["int" ,name]:
                     vars[name] = 0
-                    out.append(f"vars[\"{name}\"] = 0")
+                    out.append(f"{'  '*indents}{name} = 0")
             case ["str",name,value]:
                 vars[name] = value.strip('"')
-                out.append(f"vars[\"{name}\"] = {value}")
+                out.append(f"{'  '*indents}{name} = {value}")
             case ["str",name]:
                 vars[name] = ""
-                out.append(f"vars[\"{name}\"] = \"\"")
-            case ["input",prompt,store] if prompt.startswith('"'):
-                if store not in vars:
-                    exit(f"error {store} not defined") 
-                # vars[store] = input(prompt.strip('"'))
-                out.append(f"vars[\"{store}\"] = input({prompt})")
-            case ["input",prompt,store] if store in vars:
-                if store not in vars:
-                    exit(f"error {store} not defined") 
-                # vars[store] = input(vars[prompt])
-                out.append(f"vars[\"{store}\"] = input(vars[\"{prompt}\"])")
+                out.append(f"{'  '*indents}{name}= \"\"")
+            case ["input",prompt,store]:
+                out.append(f"{'  '*indents}{store}= input({prompt})")
+            case ["Func" ,name,*args,"->" ,returnType]:
+                pram  = iter(args)
+                argVars = []
+                for item in pram:
+                    vtype = item
+                    var = next(pram)
+                    argVars.append(var)
+                out.append(f"{'  '*indents}def {name}({','.join(argVars)}):")
+                indents += 1
+
+            case ["Func" ,name,*args]:
+                pram  = iter(args)
+                argVars = []
+                for item in pram:
+                    vtype = item
+                    var = next(pram)
+                    argVars.append(var)
+                out.append(f"{'  '*indents}def {name}({','.join(argVars)}):")
+                indents += 1
+
+            case ["While",*condition,"Do"]:
+                out.append(f"{'  '*indents}while {' '.join(condition)}:")
+                indents+=1              
+
+            case ["If",*condition,"Then"]:
+                out.append(f"{'  '*indents}if {' '.join(condition)}:")
+                indents+=1
+
+            case ["Else"]:
+                out.append(f"{'  '*(indents-1)}else:")
+
+            case ["sub" , var1,var2,store]:
+                out.append(f"{'  '*indents}{store}={var1}-{var2}")
+
+            case ["add" , var1,var2,store]:
+                out.append(f"{'  '*indents}{store}={var1}+{var2}")
+
+            case ["endFunc"|"endWhile"|"endIf"]:
+                indents -= 1
+
+            case [funcName,*args] if funcName in functions:
+                out.append(f"{'  '*indents}{funcName}({','.join(args)})")
+
+            case ["Struct" , name]:
+                out.append(f"{'  '*indents}@dataclass")
+                out.append(f"{'  '*indents}class {name}():")
+                line = next(lines)
+                while line != ["endStruct"]:
+                    out.append(f"{'  '*(indents+1)}{line[1]}:{line[0]}")
+                    line = next(lines)
+
+            # case ["new",structType,*arg] if structType in structures:
+            case ["new",structType,name,*arg]:
+                pram  = iter(args)
+                out.append(f"{'  '*indents}{name} = {structType}({','.join(arg)})")
+
+            case ["return",value]:
+                out.append(f"{'  '*indents}return {value}")
             case _:
                 print("unknown token : "+ " ".join(line))
     return "\n".join(out)
@@ -314,12 +351,14 @@ if __name__ == "__main__":
     stage3 = tokenize(stage2)
 
     # pp(stage3)
-    tokens = flatten(stage3)
-    if not basicCheck(tokens):
-        pp(stage3)
+    # tokens = flatten(stage3)
+    # if not basicCheck(tokens):
+    #     pp(stage3)
     
     # printFlat(stage3)
 
     # compile(stage3)
     exe = compile_test(stage3)
+
+    # print("Output".center(18,"="))
     print(exe)
