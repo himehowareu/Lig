@@ -14,3 +14,13 @@ str user
 input "what is your name ?" user
 
 print user
+
+Inplace println str text
+    prep
+        text = text + "\n"
+    endPrep    
+    Code
+        format "print($)" text
+    endCode
+    
+endInplace

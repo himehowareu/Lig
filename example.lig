@@ -1,6 +1,13 @@
 // this will be the example file for lig
 // got git working right XD
 
+// import file 
+
+stub poke -> none
+    int cell
+    int value
+endStub 
+
 print "this is a test"
 
 str test "test"
@@ -23,6 +30,11 @@ Struct person
     int age
     str name
 endStruct
+
+// Func poke int cell int value
+//    ASM poke cell value
+// endFunc
+
 
 Func greet person customer
     print "hello "

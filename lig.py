@@ -346,8 +346,8 @@ def compile_test(tokens: list[list[str]])->list[str]:
 
 
 if __name__ == "__main__":
-    program = loadfile("example.lig")
-    # program = loadfile("test.lig")
+    # program = loadfile("example.lig")
+    program = loadfile("test.lig")
     temp = removeComments(program)
     stage1 = removeNewlines(temp)
     stage2 = removeTabs(stage1)
